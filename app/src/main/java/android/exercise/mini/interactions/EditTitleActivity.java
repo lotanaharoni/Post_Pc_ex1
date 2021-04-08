@@ -42,6 +42,14 @@ public class EditTitleActivity extends AppCompatActivity {
 
     // handle clicks on "start edit"
     fabStartEdit.setOnClickListener(v -> {
+
+      // 3
+      textViewTitle.setVisibility(View.INVISIBLE);
+      // 4
+      editTextTitle.setVisibility(View.VISIBLE);
+
+
+
       /*
       TODO:
       1. animate out the "start edit" FAB

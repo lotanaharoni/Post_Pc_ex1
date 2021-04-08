@@ -2,6 +2,7 @@ package android.exercise.mini.interactions;
 
 import android.os.Bundle;
 import android.view.View;
+import android.view.animation.OvershootInterpolator;
 import android.widget.EditText;
 import android.widget.TextView;
 
@@ -43,6 +44,21 @@ public class EditTitleActivity extends AppCompatActivity {
     // handle clicks on "start edit"
     fabStartEdit.setOnClickListener(v -> {
 
+      // 1
+    /*
+      fabStartEdit.animate()
+              .alpha(100L)
+             // .translationY(200L)
+              .setInterpolator(new OvershootInterpolator())
+              .start();
+
+    */
+      
+      // 1 - TODO: Change to animation
+      fabStartEdit.setVisibility(View.INVISIBLE);
+
+      // 2 - TODO: Change to animation
+      fabEditDone.setVisibility(View.VISIBLE);
       // 3
       textViewTitle.setVisibility(View.INVISIBLE);
       // 4
@@ -66,6 +82,10 @@ public class EditTitleActivity extends AppCompatActivity {
 
     // handle clicks on "done edit"
     fabEditDone.setOnClickListener(v -> {
+
+      //3
+      textViewTitle.setVisibility(View.INVISIBLE);
+
       /*
       TODO:
       1. animate out the "done edit" FAB

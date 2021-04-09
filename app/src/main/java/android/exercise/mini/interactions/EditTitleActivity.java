@@ -2,6 +2,7 @@ package android.exercise.mini.interactions;
 
 import android.os.Bundle;
 import android.view.View;
+import android.view.animation.AccelerateInterpolator;
 import android.view.animation.OvershootInterpolator;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -44,23 +45,81 @@ public class EditTitleActivity extends AppCompatActivity {
     // handle clicks on "start edit"
     fabStartEdit.setOnClickListener(v -> {
 
-      // 1
-    /*
+
+
+
       fabStartEdit.animate()
-              .alpha(100L)
-             // .translationY(200L)
-              .setInterpolator(new OvershootInterpolator())
+              .alpha(0f)
+              .setInterpolator(new AccelerateInterpolator())
+              .setDuration(300L)
+              .withEndAction(new Runnable() {
+                @Override
+                public void run() {
+                  fabEditDone.setVisibility(View.VISIBLE); //TODO
+                  fabEditDone.setAlpha(0f);
+                  fabStartEdit.setVisibility(View.GONE);
+                  fabEditDone.animate()
+                          .alpha(1f)
+                          .setStartDelay(100L)
+                          .setInterpolator(new AccelerateInterpolator())
+                          .setDuration(400L)
+                          .start();
+                }
+              })
               .start();
 
-    */
-      
+
+
+      // 1
+      /*
+      fabStartEdit.animate()
+              .alpha(0.5f)
+              .translationY(80f)
+              .translationX(80f)
+              .withEndAction(new Runnable() {
+                @Override
+                public void run() {
+                  fabStartEdit.setVisibility(View.INVISIBLE);
+
+                  fabEditDone.animate()
+                          .alpha(0.5f)
+                          .translationY(80f)
+                          .translationX(80f)
+                          .withEndAction(new Runnable() {
+                            @Override
+                            public void run() {
+                              fabEditDone.setVisibility(View.VISIBLE);
+                            }
+                          })
+                          .start();
+                }
+              })
+              .start();
+
+       */
+
       // 1 - TODO: Change to animation
-      fabStartEdit.setVisibility(View.INVISIBLE);
+    //  fabStartEdit.setVisibility(View.INVISIBLE);
 
       // 2 - TODO: Change to animation
-      fabEditDone.setVisibility(View.VISIBLE);
+      /*
+
+      fabEditDone.animate()
+              .alpha(0.5f)
+              .translationY(80f)
+              .translationX(80f)
+              .withEndAction(new Runnable() {
+                @Override
+                public void run() {
+                  fabEditDone.setVisibility(View.VISIBLE);
+                }
+              })
+              .start();
+
+       */
+     // fabEditDone.setVisibility(View.VISIBLE);
       // 3
-      textViewTitle.setVisibility(View.INVISIBLE);
+      textViewTitle.setVisibility(View.GONE);
       // 4
       editTextTitle.setVisibility(View.VISIBLE);
 
@@ -84,7 +143,13 @@ public class EditTitleActivity extends AppCompatActivity {
     fabEditDone.setOnClickListener(v -> {
 
       //3
-      textViewTitle.setVisibility(View.INVISIBLE);
+      String textTitle = editTextTitle.getText().toString();
+      textViewTitle.setText(textTitle);
+
+      //4
+      textViewTitle.setVisibility(View.VISIBLE);
+      //5
+      editTextTitle.setVisibility(View.GONE);
 
       /*
       TODO:
@@ -102,6 +167,29 @@ public class EditTitleActivity extends AppCompatActivity {
 
   @Override
   public void onBackPressed() {
+
+    FloatingActionButton fabStartEdit = findViewById(R.id.fab_start_edit);
+    FloatingActionButton fabEditDone = findViewById(R.id.fab_edit_done);
+    TextView textViewTitle = findViewById(R.id.textViewPageTitle);
+    EditText editTextTitle = findViewById(R.id.editTextPageTitle);
+
+    // 1
+    editTextTitle.setVisibility(View.GONE);
+    //2 - TODO: check the previous text
+    textViewTitle.setVisibility(View.VISIBLE);
+    //3
+    fabEditDone.animate()
+            .alpha(0.5f)
+            .translationY(80f)
+            .translationX(80f)
+            .withEndAction(new Runnable() {
+              @Override
+              public void run() {
+                fabEditDone.setVisibility(View.GONE);
+              }
+            })
+            .start();
+
     // BACK button was clicked
     /*
     TODO:

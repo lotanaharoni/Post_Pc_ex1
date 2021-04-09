@@ -44,10 +44,6 @@ public class EditTitleActivity extends AppCompatActivity {
 
     // handle clicks on "start edit"
     fabStartEdit.setOnClickListener(v -> {
-
-
-
-
       fabStartEdit.animate()
               .alpha(0f)
               .setInterpolator(new AccelerateInterpolator())
@@ -68,63 +64,13 @@ public class EditTitleActivity extends AppCompatActivity {
               })
               .start();
 
-
-
-      // 1
-      /*
-      fabStartEdit.animate()
-              .alpha(0.5f)
-              .translationY(80f)
-              .translationX(80f)
-              .withEndAction(new Runnable() {
-                @Override
-                public void run() {
-                  fabStartEdit.setVisibility(View.INVISIBLE);
-
-                  fabEditDone.animate()
-                          .alpha(0.5f)
-                          .translationY(80f)
-                          .translationX(80f)
-                          .withEndAction(new Runnable() {
-                            @Override
-                            public void run() {
-                              fabEditDone.setVisibility(View.VISIBLE);
-                            }
-                          })
-                          .start();
-                }
-              })
-              .start();
-
-       */
-
-      // 1 - TODO: Change to animation
-    //  fabStartEdit.setVisibility(View.INVISIBLE);
-
-      // 2 - TODO: Change to animation
-      /*
-
-      fabEditDone.animate()
-              .alpha(0.5f)
-              .translationY(80f)
-              .translationX(80f)
-              .withEndAction(new Runnable() {
-                @Override
-                public void run() {
-                  fabEditDone.setVisibility(View.VISIBLE);
-                }
-              })
-              .start();
-
-       */
-     // fabEditDone.setVisibility(View.VISIBLE);
       // 3
       textViewTitle.setVisibility(View.GONE);
       // 4
+      String textTitle = textViewTitle.getText().toString();
+      editTextTitle.setText(textTitle);
       editTextTitle.setVisibility(View.VISIBLE);
-
-
-
+      
       /*
       TODO:
       1. animate out the "start edit" FAB

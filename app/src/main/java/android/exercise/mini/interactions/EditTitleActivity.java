@@ -125,6 +125,8 @@ public class EditTitleActivity extends AppCompatActivity {
       this.isEditing = false;
 
       // 6 TODO: close the keyboard
+
+
       /*
       View view = this.getCurrentFocus();
       if (view != null) {

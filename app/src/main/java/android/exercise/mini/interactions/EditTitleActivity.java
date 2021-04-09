@@ -23,6 +23,8 @@ public class EditTitleActivity extends AppCompatActivity {
   // in onCreate() set `this.isEditing` to `true` once the user starts editing, set to `false` once done editing
   // in onBackPressed() check `if(this.isEditing)` to understand what to do
 
+  private boolean isEditing = false;
+
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
@@ -51,7 +53,7 @@ public class EditTitleActivity extends AppCompatActivity {
               .withEndAction(new Runnable() {
                 @Override
                 public void run() {
-                  fabEditDone.setVisibility(View.VISIBLE); //TODO
+                  fabEditDone.setVisibility(View.VISIBLE);
                   fabEditDone.setAlpha(0f);
                   fabStartEdit.setVisibility(View.GONE);
                   fabEditDone.animate()
@@ -66,11 +68,13 @@ public class EditTitleActivity extends AppCompatActivity {
 
       // 3
       textViewTitle.setVisibility(View.GONE);
-      // 4
+      // 4 + 5
       String textTitle = textViewTitle.getText().toString();
       editTextTitle.setText(textTitle);
       editTextTitle.setVisibility(View.VISIBLE);
-      
+
+      this.isEditing = true;
+
       /*
       TODO:
       1. animate out the "start edit" FAB
@@ -88,6 +92,27 @@ public class EditTitleActivity extends AppCompatActivity {
     // handle clicks on "done edit"
     fabEditDone.setOnClickListener(v -> {
 
+      // 1 + 2
+      fabEditDone.animate()
+              .alpha(0f)
+              .setInterpolator(new AccelerateInterpolator())
+              .setDuration(300L)
+              .withEndAction(new Runnable() {
+                @Override
+                public void run() {
+                  fabStartEdit.setVisibility(View.VISIBLE);
+                  fabStartEdit.setAlpha(0f);
+                  fabEditDone.setVisibility(View.GONE);
+                  fabStartEdit.animate()
+                          .alpha(1f)
+                          .setStartDelay(100L)
+                          .setInterpolator(new AccelerateInterpolator())
+                          .setDuration(400L)
+                          .start();
+                }
+              })
+              .start();
+
       //3
       String textTitle = editTextTitle.getText().toString();
       textViewTitle.setText(textTitle);
@@ -96,6 +121,18 @@ public class EditTitleActivity extends AppCompatActivity {
       textViewTitle.setVisibility(View.VISIBLE);
       //5
       editTextTitle.setVisibility(View.GONE);
+
+      this.isEditing = false;
+
+      // 6 TODO: close the keyboard
+      /*
+      View view = this.getCurrentFocus();
+      if (view != null) {
+        InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+        imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+      }
+
+       */
 
       /*
       TODO:
@@ -114,27 +151,46 @@ public class EditTitleActivity extends AppCompatActivity {
   @Override
   public void onBackPressed() {
 
+    // find all views
     FloatingActionButton fabStartEdit = findViewById(R.id.fab_start_edit);
     FloatingActionButton fabEditDone = findViewById(R.id.fab_edit_done);
     TextView textViewTitle = findViewById(R.id.textViewPageTitle);
     EditText editTextTitle = findViewById(R.id.editTextPageTitle);
 
-    // 1
-    editTextTitle.setVisibility(View.GONE);
-    //2 - TODO: check the previous text
-    textViewTitle.setVisibility(View.VISIBLE);
-    //3
-    fabEditDone.animate()
-            .alpha(0.5f)
-            .translationY(80f)
-            .translationX(80f)
-            .withEndAction(new Runnable() {
-              @Override
-              public void run() {
-                fabEditDone.setVisibility(View.GONE);
-              }
-            })
-            .start();
+    if (this.isEditing){
+      // 1
+      editTextTitle.setVisibility(View.GONE);
+      //2
+      textViewTitle.setVisibility(View.VISIBLE);
+
+
+      // 3 + 4
+
+      fabEditDone.animate()
+              .alpha(0f)
+              .setInterpolator(new AccelerateInterpolator())
+              .setDuration(300L)
+              .withEndAction(new Runnable() {
+                @Override
+                public void run() {
+                  fabStartEdit.setVisibility(View.VISIBLE);
+                  fabStartEdit.setAlpha(0f);
+                  fabEditDone.setVisibility(View.GONE);
+                  fabStartEdit.animate()
+                          .alpha(1f)
+                          .setStartDelay(100L)
+                          .setInterpolator(new AccelerateInterpolator())
+                          .setDuration(400L)
+                          .start();
+                }
+              })
+              .start();
+
+      this.isEditing = false;
+    }
+    else{
+      super.onBackPressed();
+    }
 
     // BACK button was clicked
     /*
